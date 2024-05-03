@@ -1,0 +1,56 @@
+#pragma once
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> getFileInput(std::string filePath)
+{
+    std::string str;
+    std::vector<std::string> file_contents;
+
+    std::fstream file;
+    file.open(filePath, std::ios::in);
+
+    while (getline(file, str))
+    {
+        //std::cout << str << std::endl;
+        file_contents.push_back(str);
+    }
+    return file_contents;
+}
+
+template<typename T> 
+T parseString(std::string str, char delimeter);
+
+template<> std::vector<std::string> parseString(std::string str, char delimiter) {
+    std::vector<std::string> parsed; 
+    
+    std::string token;
+    size_t pos = 0;
+
+    while ((pos = str.find(delimiter)) != std::string::npos) {
+        token = str.substr(0, pos);
+
+        parsed.push_back(token);
+
+        str.erase(0, pos + 1);
+    }
+    return parsed;
+}
+template<> std::vector<int> parseString(std::string str, char delimiter) {
+    std::vector<int> parsed;
+
+    std::string token;
+    size_t pos = 0;
+
+    while ((pos = str.find(delimiter)) != std::string::npos) {
+        token = str.substr(0, pos);
+
+        parsed.push_back(stoi(token));
+
+        str.erase(0, pos + 1);
+    }
+    parsed.push_back(stoi(str));
+    return parsed;
+}
