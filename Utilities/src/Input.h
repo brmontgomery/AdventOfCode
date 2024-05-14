@@ -23,7 +23,7 @@ std::vector<std::string> getFileInput(std::string filePath)
 template<typename T> 
 T parseString(std::string str, char delimeter);
 
-template<> std::vector<std::string> parseString(std::string str, char delimiter) {
+std::vector<std::string> parseStringToString(std::string str, char delimiter) {
     std::vector<std::string> parsed; 
     
     std::string token;
@@ -38,7 +38,7 @@ template<> std::vector<std::string> parseString(std::string str, char delimiter)
     }
     return parsed;
 }
-template<> std::vector<int> parseString(std::string str, char delimiter) {
+std::vector<int> parseStringToInt(std::string str, char delimiter) {
     std::vector<int> parsed;
 
     std::string token;
