@@ -5,7 +5,7 @@
 template<class T>
 class Grid2D {
 public:
-	Grid2D(T initVal);
+	Grid2D(T initVal, initRows = 0, initColumns = 0);
 	
 	void pushBackRow(int num = 1);
 	void pushBackColumn(int num = 1);
@@ -79,14 +79,19 @@ private:
 //implementations for the Grid2D
 //--------------------------------------------------------------------------------------------
 template <typename T>
-Grid2D<T>::Grid2D(T initVal) {
+Grid2D<T>::Grid2D(T initVal, initRows = 1, initColumns = 1) {
 	defaultValue_ = initVal;
-	SinglyLinkedList<T> column;
-	column.append(defaultValue_);
 
-	grid_.append(column);
-	rows_ = 1;
-	columns_ = 1;
+	SinglyLinkedList<T> column;
+	for (int i = 0; i < initColumns; i++) {
+		column.append(defaultValue_);
+	}
+
+	for (int i = 0; i < initRows; i++) {
+		grid_.append(column);
+	}
+	rows_ = initRows;
+	columns_ = initColumns;
 
 	return;
 }
