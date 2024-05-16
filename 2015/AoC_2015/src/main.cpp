@@ -6,6 +6,6 @@
 #include "Day4/Day4.h"
 
 int main() {
-	AoC2015D4P1();
+	AoC2015D4P2();
 	system("PAUSE");
 }

@@ -155,10 +155,35 @@ void MD5::runMD5Algorithm() {
 }
 
 std::string MD5::convertOutputToHexString() {
-    std::ostringstream result;
-    result << std::hex << std::setfill('0') << std::setw(8) << ((a0_ & 0xFF000000) >> 24 | (a0_ & 0x00FF0000) >> 8 | (a0_ & 0x0000FF00) << 8 | (a0_ & 0x000000FF) << 24);
-    result << std::hex << std::setfill('0') << std::setw(8) << ((b0_ & 0xFF000000) >> 24 | (b0_ & 0x00FF0000) >> 8 | (b0_ & 0x0000FF00) << 8 | (b0_ & 0x000000FF) << 24);
-    result << std::hex << std::setfill('0') << std::setw(8) << ((c0_ & 0xFF000000) >> 24 | (c0_ & 0x00FF0000) >> 8 | (c0_ & 0x0000FF00) << 8 | (c0_ & 0x000000FF) << 24);
-    result << std::hex << std::setfill('0') << std::setw(8) << ((d0_ & 0xFF000000) >> 24 | (d0_ & 0x00FF0000) >> 8 | (d0_ & 0x0000FF00) << 8 | (d0_ & 0x000000FF) << 24);
-    return result.str();
+
+    std::string result = "";
+    static const char characters[] = "0123456789abcdef";
+
+    uint8_t buffer[16] = {0, 0, 0, 0,0,0,0,0, 0, 0,0, 0, 0,0,0,0};
+
+    buffer[0] |= a0_ & 0xFF; 
+    buffer[1] |= (a0_ >> 8) & 0xFF;
+    buffer[2] |= (a0_ >> 16) & 0xFF;
+    buffer[3] = (a0_ >> 24) & 0xFF;
+    buffer[7] = (b0_ >> 24) & 0xFF;
+    buffer[6] |= (b0_ >> 16) & 0xFF;
+    buffer[5] |= (b0_ >> 8) & 0xFF;
+    buffer[4] |= b0_ & 0xFF;
+    buffer[11] = (c0_ >> 24) & 0xFF;
+    buffer[10] |= (c0_ >> 16) & 0xFF;
+    buffer[9] |= (c0_ >> 8) & 0xFF;
+    buffer[8] |= c0_ & 0xFF;
+    buffer[15] = (d0_ >> 24) & 0xFF;
+    buffer[14] |= (d0_ >> 16) & 0xFF;
+    buffer[13] |= (d0_ >> 8) & 0xFF;
+    buffer[12] |= d0_ & 0xFF;
+
+
+    for (uint8_t element : buffer) {
+        result += characters[(element >> 4) & 0x0F];
+        result += characters[element & 0x0F];
+    }
+
+    
+    return result;
 }
