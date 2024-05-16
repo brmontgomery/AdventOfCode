@@ -37,5 +37,31 @@ void AoC2015D5P1() {
 
 void AoC2015D5P2() {
     std::vector<std::string> input = getFileInput(".//src//Day5//Day5.txt");
+    int niceCount = 0;
     
+    for (int i = 0; i < input.size(); i++) {
+        bool oneApartFlag = false, pairsFlag = false;
+        for (int j = 2; j < input[i].size() && oneApartFlag == false; j++) {
+            if (oneApartFlag == false) {
+                if (input [i][j] == input[i][j-2]) {
+                    oneApartFlag = true;
+                }
+            }
+        }
+        if (oneApartFlag == true) {
+            std::vector<std::string> pairs;
+            for (int j = 1; j < input[i].size(); j++) {
+                pairs.push_back(std::string(input[i][j-1] + input[i][j]));
+            }
+            for (int j = 0; j < pairs.size() - 2 && pairsFlag == false; j++) {
+                for (int k = j + 2; k < pairs.size() && pairsFlag == false; k++) {
+                    if (pairs[j] == pairs[k]) {
+                        pairsFlag = true;
+                        niceCount += 1;
+                    }
+                }
+            }
+        }
+    }
+    std::cout << niceCount << std::endl << std::endl;
 }
