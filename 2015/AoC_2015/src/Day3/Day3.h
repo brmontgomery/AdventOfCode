@@ -48,7 +48,7 @@ void move(char input, Grid2D<int>& grid, int& currentX, int& currentY, int& grid
 void AoC2015D3P1() {
     std::vector<std::string> input = getFileInput(".//src//Day3//Day3.txt");
 
-    Grid2D<int> grid = Grid2D<int>(0);
+    Grid2D<int> grid = Grid2D<int>(0, 1, 1);
     int currentX = 0, currentY = 0, gridExpansion;
 
     grid.setValue(1, 0, 0);
@@ -63,7 +63,7 @@ void AoC2015D3P1() {
 void AoC2015D3P2() {
     std::vector<std::string> input = getFileInput(".//src//Day3//Day3.txt");
 
-    Grid2D<int> grid = Grid2D<int>(0);
+    Grid2D<int> grid = Grid2D<int>(0, 1, 1);
     int currentX1 = 0, currentY1 = 0, currentX2 = 0, currentY2 = 0, gridExpansion = 0;
 
     grid.setValue(1, 0, 0);
