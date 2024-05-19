@@ -5,8 +5,11 @@
 #include "Day3/Day3.h"
 #include "Day4/Day4.h"
 #include "Day5/Day5.h"
+#include "Day6/Day6.h"
+#include "Day7/Day7.h"
+#include "Day8/Day8.h"
 
 int main() {
-	AoC2015D5P1();
+	AoC2015D7P2();
 	system("PAUSE");
 }

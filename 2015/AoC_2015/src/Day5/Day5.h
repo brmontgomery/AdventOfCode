@@ -51,7 +51,7 @@ void AoC2015D5P2() {
         if (oneApartFlag == true) {
             std::vector<std::string> pairs;
             for (int j = 1; j < input[i].size(); j++) {
-                pairs.push_back(std::string(input[i][j-1] + input[i][j]));
+                pairs.push_back(std::to_string(input[i][j-1]) + std::to_string(input[i][j]));
             }
             for (int j = 0; j < pairs.size() - 2 && pairsFlag == false; j++) {
                 for (int k = j + 2; k < pairs.size() && pairsFlag == false; k++) {

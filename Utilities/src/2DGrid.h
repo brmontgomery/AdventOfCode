@@ -5,7 +5,7 @@
 template<class T>
 class Grid2D {
 public:
-	Grid2D(T initVal, initRows = 0, initColumns = 0);
+	Grid2D(T initVal, int initRows = 1, int initColumns = 1);
 	
 	void pushBackRow(int num = 1);
 	void pushBackColumn(int num = 1);
@@ -79,7 +79,7 @@ private:
 //implementations for the Grid2D
 //--------------------------------------------------------------------------------------------
 template <typename T>
-Grid2D<T>::Grid2D(T initVal, initRows = 1, initColumns = 1) {
+Grid2D<T>::Grid2D(T initVal, int initRows, int initColumns) {
 	defaultValue_ = initVal;
 
 	SinglyLinkedList<T> column;
