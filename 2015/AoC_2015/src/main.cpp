@@ -10,6 +10,6 @@
 #include "Day8/Day8.h"
 
 int main() {
-	AoC2015D7P2();
+	AoC2015D8P2();
 	system("PAUSE");
 }
