@@ -36,6 +36,7 @@ std::vector<std::string> parseStringToString(std::string str, char delimiter) {
 
         str.erase(0, pos + 1);
     }
+    parsed.push_back(str);
     return parsed;
 }
 std::vector<int> parseStringToInt(std::string str, char delimiter) {
