@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
+#include <map>
 #include "AoCUtilities.h"
 
-int getMinimumLength(std::string currentCity, std::vector<std::string> visited, std::vector<Route> routes) {
+/*int getMinimumLength(std::string currentCity, std::vector<std::string> visited, std::vector<Route> routes) {
     std::vector<int> viable;
     visited.push_back(currentCity);
     for (int i = 0; i < routes.size(); i++) {
@@ -33,7 +34,7 @@ int getMinimumLength(std::string currentCity, std::vector<std::string> visited, 
     else {
         return routes[viable[0]].distance;
     }
-}
+}*/
 
 void AoC2015D13P1() {
     std::vector<std::string> input = getFileInput(".//src//Day13//Day13.txt");
@@ -52,8 +53,8 @@ void AoC2015D13P1() {
             score -=std::stoi(input[i].substr(11, 2));
         }
 
-        auto it = mymap.find(name);
-        if (it != mymap.end()) {
+        auto it = people.find(name);
+        if (it != people.end()) {
             people[name][nextTo] = score;
         } else {
             std::map<std::string, int> tempMap = {{nextTo,score}};

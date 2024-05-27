@@ -11,8 +11,22 @@
 #include "Day9/Day9.h"
 #include "Day10/Day10.h"
 #include "Day11/Day11.h"
+#include "Day12/Day12.h"
+#include "Day13/Day13.h"
+#include "Day14/Day14.h"
+#include "Day15/Day15.h"
+#include "Day16/Day16.h"
+#include "Day17/Day17.h"
+#include "Day18/Day18.h"
+#include "Day19/Day19.h"
+#include "Day20/Day20.h"
+#include "Day21/Day21.h"
+#include "Day22/Day22.h"
+#include "Day23/Day23.h"
+#include "Day24/Day24.h"
+#include "Day25/Day25.h"
 
 int main() {
-	AoC2015D11P1();
+	AoC2015D12P2();
 	system("PAUSE");
 }
