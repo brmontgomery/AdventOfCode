@@ -12,7 +12,7 @@ void AoC2015D17P1() {
         //for each index add up the values of items corresponding to positive bits
         for (int j = 0; j < input.size(); j++) {
             if ((j >> j) & 1) {
-                sum += input[j];
+                sum += std::stoi(input[j]);
             }
         }
         //add to count if they equal 150
