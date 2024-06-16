@@ -182,7 +182,7 @@ SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& r
         for (SingleNode<T>* position = rhs.head; position != nullptr; position = position->next) {
             append(position->data);
         }
-        this.length = rhs.length;
+        this->length = rhs.length;
     }
     return *this;
 }

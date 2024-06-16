@@ -5,7 +5,7 @@
 
 void AoC2015D20P1() {
     std::vector<std::string> input = getFileInput(".//src//Day20//Day20.txt");
-    if (input[0] == 1) { std::cout << "1" << std::endl << std::endl; return; }
+    if (input[0] == "1") { std::cout << "1" << std::endl << std::endl; return; }
 
     bool found = false;
     int i = 2;
@@ -16,8 +16,8 @@ void AoC2015D20P1() {
                 count += j;
             }
         }
-        if ((count + i) * 10 == input[0]) {
-            std::cout << std::stoi((count + i) * 10) << std::endl << std::endl;
+        if ((count + i) * 10 == std::stoi(input[0])) {
+            std::cout << std::to_string((count + i) * 10) << std::endl << std::endl;
             found = true;
         }
     }
