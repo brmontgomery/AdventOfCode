@@ -26,16 +26,16 @@ bool DPS(std::vector<Item> items, Stats enemyStats) {
     while (true) {
         //player turn
         int damage -= ourStats.damage - enemyStats.armor;
-        if (damage < 0) {
-            damage = 0;
+        if (damage < 1) {
+            damage = 1;
         }
         enemyStats.health -= damage;
 
         //enemy turn
         if (enemyStats.health > 0) {
             damage -= enemyStats.damage - ourStats.armor;
-            if (damage < 0) {
-                damage = 0;
+            if (damage < 1) {
+                damage = 1;
             }
             ourStats.health -= damage;
             if (ourStats.health < 0) {
