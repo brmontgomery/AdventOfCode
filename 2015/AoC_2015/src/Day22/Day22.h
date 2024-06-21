@@ -11,6 +11,10 @@ struct OurStats {
 };
 
 int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
+    if (enemyStats.health <= 0 || ourStats.health <= 0) {
+        return 0;
+    }
+            
     if (ourStats.poisonCounter > 0) {
         enemyStats.health -= 3;
         ourStats.poisonCounter--;
@@ -23,6 +27,7 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
         ourStats.rechargeCounter--;
     }
     if (playerTurn) {
+        int minMana = 0;
         playerTurn = 0;
         if (ourStats.shieldCounter > 0) {
            ourStats.shieldCounter--;
@@ -30,7 +35,7 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
 
         //Select Move
         //magicMissile
-        if (mana >= 53) {
+        if (ourStats.mana >= 53) {
             EnemyStats enemyMagicMissile = enemyStats;
             OurStats ourMagicMissile = ourStats;
 
@@ -39,7 +44,7 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
 
             if (enemyMagicMissile.health <= 0) {
                 if (53 < minMana) {
-                    minMana = 53;
+                    minMana = getMinMana(ourMagicMissile, enemyMagicMissile, playerTurn) + 53;
                 }
             } else {
                 int missileMana = getMinMana(ourMagicMissile, enemyMagicMissile, playerTurn) + 53; 
@@ -49,7 +54,7 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
             }
         }
         //drain
-        if (mana >= 73) {
+        if (ourStats.mana >= 73) {
             EnemyStats enemyDrain = enemyStats;
             OurStats ourDrain = ourStats;
 
@@ -59,7 +64,7 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
 
             if (enemyDrain.health <= 0) {
                 if (73 < minMana) {
-                    minMana = 73;
+                    minMana = getMinMana(ourDrain, enemyDrain, playerTurn) + 73;
                 }
             } else {
                 int drainMana = getMinMana(ourDrain, enemyDrain, playerTurn) + 73; 
@@ -68,22 +73,40 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
                 }
             }
         }
-        if (mana >= 113 && ourStats.shieldCounter == 0) {
+        if (ourStats.mana >= 113 && ourStats.shieldCounter == 0) {
             EnemyStats enemyShield = enemyStats;
             OurStats ourShield = ourStats;
 
             ourShield.mana -= 113;
             ourShield.shieldCounter = 6;
 
-            if (enemyShield.health <= 0) {
-                if (113 < minMana) {
-                    minMana = 113;
-                }
-            } else {
-                int drainMana = getMinMana(ourDrain, enemyDrain, playerTurn) + 113; 
-                if (drainMana < minMana) {
-                    minMana = drainMana;
-                }
+            int shieldMana = getMinMana(ourShield, enemyShield, playerTurn) + 113;
+            if (shieldMana < minMana) {
+                minMana = shieldMana;
+            }
+        }
+        if (ourStats.mana >= 173 && ourStats.poisonCounter == 0) {
+            EnemyStats enemyPoison = enemyStats;
+            OurStats ourPoison = ourStats;
+
+            ourPoison.mana -= 173;
+            ourPoison.poisonCounter = 6;
+
+            int poisonMana = getMinMana(ourPoison, enemyPoison, playerTurn) + 173;
+            if (poisonMana < minMana) {
+                minMana = poisonMana;
+            }
+        }
+        if (ourStats.mana >= 229 && ourStats.rechargeCounter == 0) {
+            EnemyStats enemyRecharge = enemyStats;
+            OurStats ourRecharge = ourStats;
+
+            ourRecharge.mana -= 229;
+            ourRecharge.rechargeCounter = 6;
+
+            int rechargeMana = getMinMana(ourRecharge, enemyRecharge, playerTurn) + 229;
+            if (rechargeMana < minMana) {
+                minMana = rechargeMana;
             }
         }
         
@@ -113,8 +136,8 @@ void AoC2015D22P1() {
     std::vector<std::string> input = getFileInput(".//src//Day22//Day22.txt");
     
     EnemyStats enemyStats;
-    enemyStats.health = std::stoi(parseStringToString(input[0])[1]);
-    enemyStats.damage = std::stoi(parseStringToString(input[1])[1]);
+    enemyStats.health = std::stoi(parseStringToString(input[0], ' ')[2]);
+    enemyStats.damage = std::stoi(parseStringToString(input[1], ' ')[1]);
 
     OurStats ourStats;
     ourStats.health = 50;
@@ -129,7 +152,7 @@ void AoC2015D22P1() {
     minMana = getMinMana(ourStats, enemyStats, playerTurn);
         
     
-    std::cout << to_string(minMana) << std::endl << std::endl;
+    std::cout << std::to_string(minMana) << std::endl << std::endl;
 }
 
 void AoC2015D22P2() {

@@ -3,7 +3,7 @@
 #include "AoCUtilities.h"
 
 struct Item {
-    string type;
+    std::string type;
     int cost, damage, armor;
 };
 
@@ -18,6 +18,8 @@ std::vector<Item> rings = {{"rings", 25, 1, 0}, {"rings", 50, 2, 0}, {"rings", 1
 bool DPS(std::vector<Item> items, Stats enemyStats) {
     Stats ourStats;
     ourStats.health = 100;
+    ourStats.damage = 0;
+    ourStats.armor = 0;
     for (int i = 0; i < items.size(); i++) {
         ourStats.damage += items[i].damage;
         ourStats.armor += items[i].armor;
@@ -25,7 +27,7 @@ bool DPS(std::vector<Item> items, Stats enemyStats) {
     
     while (true) {
         //player turn
-        int damage -= ourStats.damage - enemyStats.armor;
+        int damage = ourStats.damage - enemyStats.armor;
         if (damage < 1) {
             damage = 1;
         }
@@ -33,7 +35,7 @@ bool DPS(std::vector<Item> items, Stats enemyStats) {
 
         //enemy turn
         if (enemyStats.health > 0) {
-            damage -= enemyStats.damage - ourStats.armor;
+            damage = enemyStats.damage - ourStats.armor;
             if (damage < 1) {
                 damage = 1;
             }
@@ -51,14 +53,14 @@ void AoC2015D21P1() {
     std::vector<std::string> input = getFileInput(".//src//Day21//Day21.txt");
 
     Stats enemyStats;
-    enemyStats.health = std::stoi(parseStringToString(input[0])[1]);
-    enemyStats.damage = std::stoi(parseStringToString(input[1])[1]);
-    enemyStats.armor = std::stoi(parseStringToString(input[2])[1]);
+    enemyStats.health = std::stoi(parseStringToString(input[0], ' ')[2]);
+    enemyStats.damage = std::stoi(parseStringToString(input[1], ' ')[1]);
+    enemyStats.armor = std::stoi(parseStringToString(input[2], ' ')[1]);
     
     std::vector<Item> currentItems;
     int minCost = 10000000;
 
-    for (int i = 0; i > weapons.size(); i++) {
+    for (int i = 0; i < weapons.size(); i++) {
         currentItems.push_back(weapons[i]);
         //no armor, no rings
         if (weapons[i].cost < minCost) {
@@ -68,7 +70,7 @@ void AoC2015D21P1() {
             }
         }
         //armor added
-        for (int j = 0; j > armor.size(); j++) {
+        for (int j = 0; j < armor.size(); j++) {
             currentItems.push_back(armor[j]);
             //1 armor, no rings
             if (weapons[i].cost + armor[j].cost < minCost) {
@@ -78,7 +80,7 @@ void AoC2015D21P1() {
                 }
             }
             //1 ring added
-            for (int k = 0; k > rings.size(); k++) {
+            for (int k = 0; k < rings.size(); k++) {
                 currentItems.push_back(rings[k]);
                 //1 armor, 1 ring
                 if (weapons[i].cost + armor[j].cost + rings[k].cost < minCost) {
@@ -88,7 +90,7 @@ void AoC2015D21P1() {
                     }
                 }
                 //2 rings added
-                for (int l = 0; l > rings.size(); l++) {
+                for (int l = 0; l < rings.size(); l++) {
                     if (k != l) {
                         currentItems.push_back(rings[l]);
                         //1 armor, 2 ring
@@ -98,15 +100,15 @@ void AoC2015D21P1() {
                                 minCost = weapons[i].cost + armor[j].cost + rings[k].cost + rings[l].cost;
                             }
                         }
-                        currentItems.pop()
+                        currentItems.pop_back();
                     }
                 }
-                currentItems.pop()
+                currentItems.pop_back();
             }
-            currentItems.pop()
+            currentItems.pop_back();
         }
         //1 ring added
-        for (int k = 0; k > rings.size(); k++) {
+        for (int k = 0; k < rings.size(); k++) {
             currentItems.push_back(rings[k]);
             //1 armor, 1 ring
             if (weapons[i].cost + rings[k].cost < minCost) {
@@ -116,22 +118,22 @@ void AoC2015D21P1() {
                 }
             }
             //2 rings added
-            for (int l = 0; l > rings.size(); l++) {
+            for (int l = 0; l < rings.size(); l++) {
                 if (k != l) {
                     currentItems.push_back(rings[l]);
                     //1 armor, 2 ring
-                    if (weapons[i].cost  + rings[k].cost + rings[l].cost < minCost) {
+                    if (weapons[i].cost + rings[k].cost + rings[l].cost < minCost) {
                         //function to check whether we will beat the boss
                         if (DPS(currentItems, enemyStats)) {
                             minCost = weapons[i].cost + rings[k].cost + rings[l].cost;
                         }
                     }
-                    currentItems.pop()
+                    currentItems.pop_back();
                 }
             }
-            currentItems.pop()
+            currentItems.pop_back();
         }
-        currentItems.pop()
+        currentItems.pop_back();
     }
 
     std::cout << std::to_string(minCost) << std::endl << std::endl;
@@ -141,24 +143,24 @@ void AoC2015D21P2() {
     std::vector<std::string> input = getFileInput(".//src//Day21//Day21.txt");
 
     Stats enemyStats;
-    enemyStats.health = std::stoi(parseStringToString(input[0])[1]);
-    enemyStats.damage = std::stoi(parseStringToString(input[1])[1]);
-    enemyStats.armor = std::stoi(parseStringToString(input[2])[1]);
+    enemyStats.health = std::stoi(parseStringToString(input[0], ' ')[2]);
+    enemyStats.damage = std::stoi(parseStringToString(input[1], ' ')[1]);
+    enemyStats.armor = std::stoi(parseStringToString(input[2], ' ')[1]);
     
     std::vector<Item> currentItems;
     int maxCost = 0;
 
-    for (int i = 0; i > weapons.size(); i++) {
+    for (int i = 0; i < weapons.size(); i++) {
         currentItems.push_back(weapons[i]);
         //no armor, no rings
         if (weapons[i].cost > maxCost) {
             //function to check whether we will beat the boss
             if (!DPS(currentItems, enemyStats)) {
-                minCost = weapons[i].cost;
+                maxCost = weapons[i].cost;
             }
         }
         //armor added
-        for (int j = 0; j > armor.size(); j++) {
+        for (int j = 0; j < armor.size(); j++) {
             currentItems.push_back(armor[j]);
             //1 armor, no rings
             if (weapons[i].cost + armor[j].cost > maxCost) {
@@ -168,7 +170,7 @@ void AoC2015D21P2() {
                 }
             }
             //1 ring added
-            for (int k = 0; k > rings.size(); k++) {
+            for (int k = 0; k < rings.size(); k++) {
                 currentItems.push_back(rings[k]);
                 //1 armor, 1 ring
                 if (weapons[i].cost + armor[j].cost + rings[k].cost > maxCost) {
@@ -178,7 +180,7 @@ void AoC2015D21P2() {
                     }
                 }
                 //2 rings added
-                for (int l = 0; l > rings.size(); l++) {
+                for (int l = 0; l < rings.size(); l++) {
                     if (k != l) {
                         currentItems.push_back(rings[l]);
                         //1 armor, 2 ring
@@ -188,15 +190,15 @@ void AoC2015D21P2() {
                                 maxCost = weapons[i].cost + armor[j].cost + rings[k].cost + rings[l].cost;
                             }
                         }
-                        currentItems.pop()
+                        currentItems.pop_back();
                     }
                 }
-                currentItems.pop()
+                currentItems.pop_back();
             }
-            currentItems.pop()
+            currentItems.pop_back();
         }
         //1 ring added
-        for (int k = 0; k > rings.size(); k++) {
+        for (int k = 0; k < rings.size(); k++) {
             currentItems.push_back(rings[k]);
             //1 armor, 1 ring
             if (weapons[i].cost + rings[k].cost > maxCost) {
@@ -206,7 +208,7 @@ void AoC2015D21P2() {
                 }
             }
             //2 rings added
-            for (int l = 0; l > rings.size(); l++) {
+            for (int l = 0; l < rings.size(); l++) {
                 if (k != l) {
                     currentItems.push_back(rings[l]);
                     //1 armor, 2 ring
@@ -216,12 +218,12 @@ void AoC2015D21P2() {
                             maxCost = weapons[i].cost + rings[k].cost + rings[l].cost;
                         }
                     }
-                    currentItems.pop()
+                    currentItems.pop_back();
                 }
             }
-            currentItems.pop()
+            currentItems.pop_back();
         }
-        currentItems.pop()
+        currentItems.pop_back();
     }
 
     std::cout << std::to_string(maxCost) << std::endl << std::endl;
