@@ -13,7 +13,7 @@ int getMaximumHappiness(Person currentPerson, std::vector<std::string> alreadySa
     std::vector<Person> viable;
 
     for (auto person : people) {
-        if ((std::find(alreadySat.begin(), alreadySat.end(), person.name) == alreadySat.end())) {
+        if (std::find(alreadySat.begin(), alreadySat.end(), person.name) == alreadySat.end()) {
             viable.push_back(person);
         }
     }

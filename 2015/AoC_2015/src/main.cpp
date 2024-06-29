@@ -27,6 +27,6 @@
 #include "Day25/Day25.h"
 
 int main() {
-	AoC2015D22P1();
+	AoC2015D25P1();
 	system("PAUSE");
 }

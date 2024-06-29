@@ -7,27 +7,39 @@ struct EnemyStats {
 };
 
 struct OurStats {
-    int health, mana, shieldCounter, poisonCounter, rechargeCounter;
+    int health, mana, shieldCounter, poisonCounter, rechargeCounter, manaUsed;
 };
 
-int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
+void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &overallMinMana, bool hardDifficulty) {
     if (enemyStats.health <= 0 || ourStats.health <= 0) {
-        return 0;
+        return;
+    }
+    if (ourStats.manaUsed > overallMinMana) {
+        return;
     }
             
+    if (playerTurn && hardDifficulty) {
+        ourStats.health -= 1;
+        if (ourStats.health <= 0) {
+            return;
+        }
+    }
+
     if (ourStats.poisonCounter > 0) {
         enemyStats.health -= 3;
         ourStats.poisonCounter--;
         if (enemyStats.health <= 0) {
-            return 0;
+            if (overallMinMana > ourStats.manaUsed) {
+                overallMinMana = ourStats.manaUsed;
+            }
         }
     }
     if (ourStats.rechargeCounter > 0) {
         ourStats.mana += 101;
         ourStats.rechargeCounter--;
     }
+
     if (playerTurn) {
-        int minMana = 0;
         playerTurn = 0;
         if (ourStats.shieldCounter > 0) {
            ourStats.shieldCounter--;
@@ -40,17 +52,16 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
             OurStats ourMagicMissile = ourStats;
 
             ourMagicMissile.mana -= 53;
+            ourMagicMissile.manaUsed += 53;
             enemyMagicMissile.health -= 4;
 
             if (enemyMagicMissile.health <= 0) {
-                if (53 < minMana) {
-                    minMana = getMinMana(ourMagicMissile, enemyMagicMissile, playerTurn) + 53;
+                if (overallMinMana > ourMagicMissile.manaUsed) {
+                    overallMinMana = ourMagicMissile.manaUsed;
                 }
-            } else {
-                int missileMana = getMinMana(ourMagicMissile, enemyMagicMissile, playerTurn) + 53; 
-                if (missileMana < minMana) {
-                    minMana = missileMana;
-                }
+            }
+            else {
+                getMinMana(ourMagicMissile, enemyMagicMissile, playerTurn, overallMinMana, hardDifficulty);
             }
         }
         //drain
@@ -59,18 +70,17 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
             OurStats ourDrain = ourStats;
 
             ourDrain.mana -= 73;
+            ourDrain.manaUsed += 73;
             ourDrain.health += 2;
             enemyDrain.health -= 2;
 
             if (enemyDrain.health <= 0) {
-                if (73 < minMana) {
-                    minMana = getMinMana(ourDrain, enemyDrain, playerTurn) + 73;
+                if (overallMinMana > ourDrain.manaUsed) {
+                    overallMinMana = ourDrain.manaUsed;
                 }
-            } else {
-                int drainMana = getMinMana(ourDrain, enemyDrain, playerTurn) + 73; 
-                if (drainMana < minMana) {
-                    minMana = drainMana;
-                }
+            }
+            else {
+                getMinMana(ourDrain, enemyDrain, playerTurn, overallMinMana, hardDifficulty);
             }
         }
         if (ourStats.mana >= 113 && ourStats.shieldCounter == 0) {
@@ -78,11 +88,16 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
             OurStats ourShield = ourStats;
 
             ourShield.mana -= 113;
+            ourShield.manaUsed += 113;
             ourShield.shieldCounter = 6;
 
-            int shieldMana = getMinMana(ourShield, enemyShield, playerTurn) + 113;
-            if (shieldMana < minMana) {
-                minMana = shieldMana;
+            if (enemyShield.health <= 0) {
+                if (overallMinMana > ourShield.manaUsed) {
+                    overallMinMana = ourShield.manaUsed;
+                }
+            }
+            else {
+                getMinMana(ourShield, enemyShield, playerTurn, overallMinMana, hardDifficulty);
             }
         }
         if (ourStats.mana >= 173 && ourStats.poisonCounter == 0) {
@@ -90,31 +105,28 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
             OurStats ourPoison = ourStats;
 
             ourPoison.mana -= 173;
+            ourPoison.manaUsed += 173;
             ourPoison.poisonCounter = 6;
 
-            int poisonMana = getMinMana(ourPoison, enemyPoison, playerTurn) + 173;
-            if (poisonMana < minMana) {
-                minMana = poisonMana;
-            }
+            getMinMana(ourPoison, enemyPoison, playerTurn, overallMinMana, hardDifficulty);
+            
         }
         if (ourStats.mana >= 229 && ourStats.rechargeCounter == 0) {
             EnemyStats enemyRecharge = enemyStats;
             OurStats ourRecharge = ourStats;
 
             ourRecharge.mana -= 229;
-            ourRecharge.rechargeCounter = 6;
+            ourRecharge.manaUsed += 229;
+            ourRecharge.rechargeCounter = 5;
 
-            int rechargeMana = getMinMana(ourRecharge, enemyRecharge, playerTurn) + 229;
-            if (rechargeMana < minMana) {
-                minMana = rechargeMana;
-            }
+            getMinMana(ourRecharge, enemyRecharge, playerTurn, overallMinMana, hardDifficulty);
         }
         
         playerTurn = 0;
-        return minMana;
+
     } else {
         playerTurn = 1;
-        int damage= enemyStats.damage;
+        int damage = enemyStats.damage;
         if (ourStats.shieldCounter > 0) {
             damage = damage - 7;
             if (damage < 1) {
@@ -122,12 +134,12 @@ int getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn) {
             }    
             ourStats.shieldCounter--;
         } 
-        ourStats.health -= 1;
+        ourStats.health -= damage;
 
         if (ourStats.health <= 0) {
-            return 10000000;
+            return;
         } else {
-            return getMinMana(ourStats, enemyStats, playerTurn);
+            getMinMana(ourStats, enemyStats, playerTurn, overallMinMana, hardDifficulty);
         }
     }
 }
@@ -145,11 +157,12 @@ void AoC2015D22P1() {
     ourStats.shieldCounter = 0; 
     ourStats.poisonCounter = 0; 
     ourStats.rechargeCounter = 0;
+    ourStats.manaUsed = 0;
 
-    int minMana;
+    int minMana = 10000000;
     bool playerTurn = 1;
 
-    minMana = getMinMana(ourStats, enemyStats, playerTurn);
+    getMinMana(ourStats, enemyStats, playerTurn, minMana, false);
         
     
     std::cout << std::to_string(minMana) << std::endl << std::endl;
@@ -157,5 +170,24 @@ void AoC2015D22P1() {
 
 void AoC2015D22P2() {
     std::vector<std::string> input = getFileInput(".//src//Day22//Day22.txt");
-    
+
+    EnemyStats enemyStats;
+    enemyStats.health = std::stoi(parseStringToString(input[0], ' ')[2]);
+    enemyStats.damage = std::stoi(parseStringToString(input[1], ' ')[1]);
+
+    OurStats ourStats;
+    ourStats.health = 50;
+    ourStats.mana = 500;
+    ourStats.shieldCounter = 0;
+    ourStats.poisonCounter = 0;
+    ourStats.rechargeCounter = 0;
+    ourStats.manaUsed = 0;
+
+    int minMana = 10000000;
+    bool playerTurn = 1;
+
+    getMinMana(ourStats, enemyStats, playerTurn, minMana, true);
+
+
+    std::cout << std::to_string(minMana) << std::endl << std::endl;
 }
