@@ -9,6 +9,7 @@ struct Sue {
 void AoC2015D16P1() {
     std::vector<std::string> input = getFileInput(".//src//Day16//Day16.txt");
     
+    //get the information for all aunts
     std::vector<Sue> aunts;
     for (int i = 0; i < input.size(); i++) {
         Sue aunt{ -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000 };
@@ -41,6 +42,7 @@ void AoC2015D16P1() {
         aunts.push_back(aunt);
     }
 
+    //find the aunt for which none of the following apply
     for (int i = 0; i < aunts.size(); i++) {
         int goodCount = 0;
         if (aunts[i].children != -10000000 && aunts[i].children != 3) { goodCount++; }
@@ -63,6 +65,7 @@ void AoC2015D16P1() {
 void AoC2015D16P2() {
     std::vector<std::string> input = getFileInput(".//src//Day16//Day16.txt");
 
+    //get the information for all aunts
     std::vector<Sue> aunts;
     for (int i = 0; i < input.size(); i++) {
         Sue aunt{ -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000, -10000000 };
@@ -104,6 +107,7 @@ void AoC2015D16P2() {
         aunts.push_back(aunt);
     }
 
+    //find the aunt for which none of the following apply
     for (int i = 0; i < aunts.size(); i++) {
         int goodCount = 0;
         if (aunts[i].children != -10000000 && aunts[i].children != 3) { goodCount++; }

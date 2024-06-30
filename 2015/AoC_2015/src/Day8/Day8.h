@@ -8,13 +8,19 @@ void AoC2015D8P1() {
     int memCharCount = 0;
 
     for (int i = 0; i < input.size(); i++) {
+        //get the number of chars in the input string
         codeCharCount += input[i].size();
+
+        //use the rules " by themselves do not count as characters, escpaed apostraphes do though (\"), escaped hexadecimal codes count as 1 character
         input[i] = input[i].substr(1, input[i].size() - 2);
         for (int j = 0; j < input[i].size(); j++) {
+            //check for escape characters
             if (input[i][j] == '\\') {
+                //if hexadecimal, the next 4 characters of input are condensed to one mem character
                 if (input[i][j + 1] == 'x') {
                     j += 3;
                 }
+                //otherwise itsonly the next two condensed to 1
                 else {
                     j += 1;
                 }
@@ -31,6 +37,7 @@ void AoC2015D8P2() {
     int codeCharCount = 0;
     int newCodeCharCount = 0;
 
+    //now we use these rules to go backwards: add two apostraphes at either end for the new char count, any input apostraphes or backslahes now count as two characters when you add the new escape character to them.
     for (int i = 0; i < input.size(); i++) {
         codeCharCount += input[i].size();
         newCodeCharCount += 2;

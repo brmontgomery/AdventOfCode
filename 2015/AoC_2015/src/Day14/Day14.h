@@ -12,6 +12,7 @@ void AoC2015D14P1() {
     std::vector<Reindeer> racers;
     int raceTime = 2503;
     
+    //get the reindeer stats
     std::vector<std::string> input = getFileInput(".//src//Day14//Day14.txt");
     for (int i = 0; i < input.size(); i++) {
         std::vector<std::string> parsed = parseStringToString(input[i], ' ');
@@ -27,6 +28,7 @@ void AoC2015D14P1() {
         racers.push_back(deer);
     }
 
+    //algorithmically find out how far each reindeer would fly in the specified time given that for each step they are either flying at speed or resting,
     for (int i = 0; i < raceTime; i++) {
         for (int j = 0; j < racers.size(); j++) {
             if (racers[j].state == true) {
@@ -46,6 +48,7 @@ void AoC2015D14P1() {
         }
     }
 
+    //find the furthest reindeer after the specified time
     Reindeer maxDistance = racers[0];
     for (int i = 1; i < racers.size(); i++) {
         if (racers[i].distance > maxDistance.distance) {
@@ -60,6 +63,7 @@ void AoC2015D14P2() {
     std::vector<Reindeer> racers;
     int raceTime = 2503;
 
+    //get the reindeer stats
     std::vector<std::string> input = getFileInput(".//src//Day14//Day14.txt");
     for (int i = 0; i < input.size(); i++) {
         std::vector<std::string> parsed = parseStringToString(input[i], ' ');
@@ -75,6 +79,7 @@ void AoC2015D14P2() {
         racers.push_back(deer);
     }
 
+    //same as above, except assign a point to each reindeer that is winning at that step.
     for (int i = 0; i < raceTime; i++) {
         for (int j = 0; j < racers.size(); j++) {
             if (racers[j].state == true) {
@@ -106,6 +111,7 @@ void AoC2015D14P2() {
         }
     }
 
+    //find the reindeer with the most points
     Reindeer maxDistance = racers[0];
     for (int i = 1; i < racers.size(); i++) {
         if (racers[i].leadBonus > maxDistance.leadBonus) {

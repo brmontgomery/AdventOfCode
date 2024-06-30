@@ -10,6 +10,7 @@ void AoC2015D20P1() {
     bool found = false;
     int i = 2;
 
+    //we are taking the sum of the factors of the numbers * 10 (incrementing from 1) and returning as soon as a sum is higher than the input number
     while (!found) {
         int count = 1;
         for (int j = 2; j <= i/2; j++) {
@@ -32,7 +33,8 @@ void AoC2015D20P2() {
     bool found = false;
     int i = 2;
     std::vector<int> visited = { 0, 1 };
-
+    //we are taking the sum of the factors of the numbers * 11 (incrementing from 1) and returning as soon as a sum is higher than the input number
+    //caveat is that each factor can only be used 50 times, so we keep track of how many times a factor has been used
     while (!found) {
         int count = 0;
         for (int j = 1; j <= i / 2; j++) {

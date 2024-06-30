@@ -15,8 +15,11 @@ uint16_t getValueOfGate(std::string gateKey, std::map<std::string, Gate>& gates)
     uint16_t input1Value = 0;
     uint16_t input2Value = 0;
 
+    //for the current gate we are attmepting to solve, return value if it is just a value
     if (gate.operation != "") {
+        //if it has no input values, return 0
         if (gate.input1 != "") {
+            //if an input exists, either get its precalculated value, or calculate its value;
             if (gates[gate.input1].value == 0) {
                 input1Value = getValueOfGate(gate.input1, gates);
             }
@@ -27,6 +30,7 @@ uint16_t getValueOfGate(std::string gateKey, std::map<std::string, Gate>& gates)
         else {
             input1Value = 0;
         }
+        //if a second input exists, either get its precalculated value, or calculate its value;
         if (gate.input2 != "") {
             if (gates[gate.input2].value == 0) {
                 input2Value = getValueOfGate(gate.input2, gates);
@@ -39,6 +43,7 @@ uint16_t getValueOfGate(std::string gateKey, std::map<std::string, Gate>& gates)
             input2Value = 0;
         }
 
+        //depending on the gate type, calculate its value from its inputs
         if (gate.operation == "AND") {
             std::cout << gate.input1 << " (" << input1Value << ") AND " << gate.input2 << " (" << input2Value << ") -> " << (input1Value & input2Value) << std::endl;
             gates[gateKey].value = input1Value & input2Value;
@@ -78,11 +83,8 @@ void AoC2015D7P1() {
     std::vector<std::string> input = getFileInput(".//src//Day7//Day7.txt");
     std::map<std::string, Gate> gates;
 
+    //get the input values into a readable format for the program
     for (int i = 0; i < input.size(); i++) {
-
-        if (i == 161) {
-            std::cout << i << std::endl;
-        }
         Gate gate;
         gate.value = 0;
         int space = input[i].find(' ');
@@ -136,6 +138,7 @@ void AoC2015D7P1() {
         gates.emplace(input[i].substr(space + 1), gate);
     }
 
+    //use the get Value of Gate program to see what this chain of gates actually outputs as a value.
     std::cout << getValueOfGate("a", gates) << std::endl << std::endl;
 }
 
@@ -144,10 +147,6 @@ void AoC2015D7P2() {
     std::map<std::string, Gate> gates;
 
     for (int i = 0; i < input.size(); i++) {
-
-        if (i == 161) {
-            std::cout << i << std::endl;
-        }
         Gate gate;
         gate.value = 0;
         int space = input[i].find(' ');
@@ -201,7 +200,7 @@ void AoC2015D7P2() {
         gates.emplace(input[i].substr(space + 1), gate);
     }
 
-    //getting a
+    //getting gate A value
     uint16_t aValue = getValueOfGate("a", gates);
 
     //resetting with new "b" value
@@ -211,8 +210,9 @@ void AoC2015D7P2() {
             gates[it.first].value = 0;
         }
     }
+    //override the b value with A as per the second problem instructions
     gates["b"].value = aValue;
 
-    //getting "b" value
+    //getting "a" value
     std::cout << getValueOfGate("a", gates) << std::endl << std::endl;
 }

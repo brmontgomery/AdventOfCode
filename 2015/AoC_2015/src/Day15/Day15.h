@@ -9,6 +9,7 @@ struct Ingredient {
 void AoC2015D15P1() {
     std::vector<std::string> input = getFileInput(".//src//Day15//Day15.txt");
 
+    //get all ingredients stats
     std::vector<Ingredient> ingredients;
     for (int i = 0; i < input.size(); i++) {
         Ingredient ingredient;
@@ -25,6 +26,7 @@ void AoC2015D15P1() {
     }
 
     int max = 0;
+    //go through every possible combination of ingrdients that adds up to 100 and find the highest total score
     for (int a = 0; a < 100; a++) {
         for (int b = 0; b < 100; b++) {
             for (int c = 0; c < 100; c++) {
@@ -53,6 +55,7 @@ void AoC2015D15P1() {
 void AoC2015D15P2() {
     std::vector<std::string> input = getFileInput(".//src//Day15//Day15.txt");
 
+    //get all ingredients stats
     std::vector<Ingredient> ingredients;
     for (int i = 0; i < input.size(); i++) {
         Ingredient ingredient;
@@ -69,6 +72,7 @@ void AoC2015D15P2() {
     }
 
     int max = 0;
+    //go through every possible combination of ingrdients that adds up to 100 and find the highest total score with the added constraint that it can only have 500 calories
     for (int a = 0; a < 100; a++) {
         for (int b = 0; b < 100; b++) {
             for (int c = 0; c < 100; c++) {

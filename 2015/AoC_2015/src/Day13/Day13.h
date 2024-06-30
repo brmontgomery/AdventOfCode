@@ -12,12 +12,14 @@ int getMaximumHappiness(Person currentPerson, std::vector<std::string> alreadySa
     alreadySat.push_back(currentPerson.name);
     std::vector<Person> viable;
 
+    //figure out who has not yet been sat in this branch
     for (auto person : people) {
         if (std::find(alreadySat.begin(), alreadySat.end(), person.name) == alreadySat.end()) {
             viable.push_back(person);
         }
     }
 
+    //for each person not sat find the best happiness score if they were sat next.
     if (viable.size() > 1) {
         int happiness = -100000000;
         int nextHappiness = 0;
@@ -36,13 +38,15 @@ int getMaximumHappiness(Person currentPerson, std::vector<std::string> alreadySa
                     happiness += person.relationships[i].second;
                 }
             }
+            //if the found happiness is the highest, make sure it is shown as the highest so far forthis branch
             if (happiness > nextHappiness) {
                 nextHappiness = happiness;
             }
         }
-        //std::cout << std::endl << "Depth: " << std::to_string(alreadySat.size()) << " - Running Total : " << std::to_string(nextHappiness);
+        
         return nextHappiness;
     }
+    //if no one else can be sat, return the happiness score found
     else {
         int happiness = 0;
         for (int i = 0; i < currentPerson.relationships.size(); i++) {
@@ -70,6 +74,7 @@ void AoC2015D13P1() {
 
     std::vector<Person> people;
     
+    //get a list of all the relationships between people and the valueof each happiness score.
     for (int i = 0; i < input.size(); i++) {
         std::vector<std::string> parsed = parseStringToString(input[i], ' ');
 
@@ -97,6 +102,7 @@ void AoC2015D13P1() {
         }
     }
 
+    //recursively find the maximum possible happiness value
     std::cout << getMaximumHappiness(people[0], {}, people) << std::endl << std::endl;
 }
 
@@ -108,6 +114,7 @@ void AoC2015D13P2() {
 
     std::vector<Person> people;
 
+    //get a list of all the relationships between people and the value of each happiness score. Make sure to add "me" as a relationship for each person and add myself as a person with scores of 0.
     for (int i = 0; i < input.size(); i++) {
         std::vector<std::string> parsed = parseStringToString(input[i], ' ');
 
@@ -138,5 +145,6 @@ void AoC2015D13P2() {
     }
     people.push_back(me);
 
+    //recursively find the maximum possible happiness value
     std::cout << getMaximumHappiness(people[0], {}, people) << std::endl << std::endl;
 }

@@ -7,6 +7,7 @@ void AoC2015D10P1() {
 
     int count = 0, charCount = 0;
     std::string result;
+    //for each loop, replace all consecutive same characters in the input with a number saying how many of that number there were and the number (11 becomes 21)
     while (count < 40) {
         result = "";
         charCount = 0;
@@ -35,6 +36,7 @@ void AoC2015D10P2() {
 
     int count = 0, charCount = 0;
     std::string result;
+    //for each loop, replace all consecutive same characters in the input with a number saying how many of that number there were and the number (11 becomes 21)
     while (count < 50) {
         result = "";
         charCount = 0;

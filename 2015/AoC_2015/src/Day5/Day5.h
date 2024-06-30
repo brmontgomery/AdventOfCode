@@ -8,6 +8,7 @@ void AoC2015D5P1() {
     int niceCount = 0;
     std::string vowels = "aeiou";
     
+    //finds all string that contain at least three vowels, at least 1 letter that repeats itself soncecutively, and does not contain the strings "ab", "cd", "pq", or "xy"
     for (int i = 0; i < input.size(); i++) {
         if (input[i].find("ab") == std::string::npos && input[i].find("cd") == std::string::npos && input[i].find("pq") == std::string::npos && input[i].find("xy") == std::string::npos) {
             char lastChar = ' ';
@@ -39,6 +40,9 @@ void AoC2015D5P2() {
     std::vector<std::string> input = getFileInput(".//src//Day5//Day5.txt");
     int niceCount = 0;
     
+    //since the old rules are clearly ridiculous, we now need to find strings with the following:
+    //Contains a consecutive pair of letters that repeats twice within the word, but does not overlap (xyxy)
+    //and contains at least one letter that repeats with a letter sandwiched between them (xcx)
     for (int i = 0; i < input.size(); i++) {
         bool oneApartFlag = false, pairsFlag = false;
         for (int j = 2; j < input[i].size() && oneApartFlag == false; j++) {

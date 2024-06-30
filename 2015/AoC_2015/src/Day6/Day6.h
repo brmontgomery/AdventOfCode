@@ -5,6 +5,7 @@
 void AoC2015D6P1() {
     std::vector<std::string> input = getFileInput(".//src//Day6//Day6.txt");
 
+    //initialize grid
     Grid2D<bool> grid = Grid2D<bool>(false, 1000, 1000);
     
     int operation;
@@ -13,9 +14,11 @@ void AoC2015D6P1() {
 
     int onCount = 0;
     
+    //for each instruction, either toggle all the values in the specified 2D range, set all values to 1 in the 2D range, or set all values to 0  in the 2D range
     for (int i = 0; i < input.size(); i++) {
         //parse the input string
 
+        //get the instruction
         std::string switchInput = input[i].substr(0, 7);
         if (switchInput == "toggle ") {
             input[i] = input[i].substr(7);
@@ -28,6 +31,8 @@ void AoC2015D6P1() {
             operation = 2;
         }
 
+
+        //get the range
         int iterator = input[i].find(',');
         topLeftRow = std::stoi(input[i].substr(0, iterator));
         topLeftColumn = std::stoi(input[i].substr(iterator + 1, 3));
@@ -36,6 +41,7 @@ void AoC2015D6P1() {
         bottomRightColumn = std::stoi(input[i].substr(iterator + 1));
         bottomRightRow = std::stoi(input[i].substr(iterator-3, 3));
 
+        //implement the actual logic for each instruction
         switch (operation) {
             case 0:
                 for (int j = topLeftRow; j <= bottomRightRow; j++) {
@@ -78,6 +84,7 @@ void AoC2015D6P1() {
 void AoC2015D6P2() {
     std::vector<std::string> input = getFileInput(".//src//Day6//Day6.txt");
 
+    //initialize grid
     Grid2D<int> grid = Grid2D<int>(0, 1000, 1000);
 
     int operation;
@@ -86,9 +93,14 @@ void AoC2015D6P2() {
 
     int onCount = 0;
 
+    //the rules have change:
+    //toggle means to increment all the values in the specified 2D range by 2, 
+    //Turn off means to decrement all values specified in the 2D range by 1 (min of 0)
+    //Turn on means to increment all values specified in the 2D range by 1
     for (int i = 0; i < input.size(); i++) {
         //parse the input string
 
+        //get the instructions
         std::string switchInput = input[i].substr(0, 7);
         if (switchInput == "toggle ") {
             input[i] = input[i].substr(7);
@@ -103,6 +115,7 @@ void AoC2015D6P2() {
             operation = 2;
         }
 
+        //find the ranges
         int iterator = input[i].find(',');
         topLeftRow = std::stoi(input[i].substr(0, iterator));
         topLeftColumn = std::stoi(input[i].substr(iterator + 1, 3));
@@ -111,6 +124,7 @@ void AoC2015D6P2() {
         bottomRightColumn = std::stoi(input[i].substr(iterator + 1));
         bottomRightRow = std::stoi(input[i].substr(iterator - 3, 3));
 
+        //implement logic
         switch (operation) {
         case 0:
             for (int j = topLeftRow; j <= bottomRightRow; j++) {
@@ -137,6 +151,7 @@ void AoC2015D6P2() {
             break;
         }
     }
+    //find the sum of all values in grid
     for (int i = 0; i < 1000; i++) {
         for (int j = 0; j < 1000; j++) {
             onCount += grid.getValue(i, j);

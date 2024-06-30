@@ -7,6 +7,7 @@ void AoC2015D12P1() {
 
     int sum = 0;
     
+    //if there is a number in the string, we count it up into a sum. They can be denoted negative.
     for (int i = 0; i < input[0].size(); i++) {
         if (input[0][i] == '-') {
             int digits = 1;
@@ -43,7 +44,9 @@ void AoC2015D12P2() {
     int sumSinceLastBracket = 0;
     std::vector<std::pair<char,int>> sumSinceLastBracketVec = { {'{', 0} };
 
+    //There is now a stipulation that if the input has the string "red" in it, the scope that red is in is negated to 0
     for (int i = 0; i < input[0].size(); i++) {
+        //keep track of which scope we are in.
         if (input[0][i] == '{') {
             bracketCount++;
             sumSinceLastBracketVec[bracketCount - 1].second += sumSinceLastBracket;
@@ -70,6 +73,7 @@ void AoC2015D12P2() {
             }
             bracketCount--;
         }
+        //look for the string "red", once found, undo any numbers in this scope so far and set the red bracket number so that no more numbers will be added
         else if (input[0][i] == 'r' && sumSinceLastBracketVec[bracketCount].first == '{') {
             if (i + 2 < input[0].size()) {
                 if (input[0][i + 1] == 'e' && input[0][i + 2] == 'd') {
@@ -84,6 +88,7 @@ void AoC2015D12P2() {
                 }
             }
         }
+        //if red has not been found, add numbers as in the first problem
         else if (input[0][i] == '-' && lowestRedBracket == -1) {
             int digits = 1;
             std::string convert = "-";

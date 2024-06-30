@@ -11,6 +11,7 @@ struct Stats {
     int health, armor, damage;
 };
 
+//hardcoded values from the description
 std::vector<Item> weapons = {{"weapon", 8, 4, 0}, {"weapon", 10, 5, 0}, {"weapon", 25, 6, 0}, {"weapon", 40, 7, 0}, {"weapon", 74, 8, 0}};
 std::vector<Item> armor = {{"armor", 13, 0, 1}, {"armor", 31, 0, 2}, {"armor", 53, 0, 3}, {"armor", 75, 0, 4}, {"armor", 102, 0, 5}}; 
 std::vector<Item> rings = {{"rings", 25, 1, 0}, {"rings", 50, 2, 0}, {"rings", 100, 3, 0}, {"rings", 20, 0, 1}, {"rings", 40, 0, 2}, {"rings", 80, 0, 3}};
@@ -52,6 +53,7 @@ bool DPS(std::vector<Item> items, Stats enemyStats) {
 void AoC2015D21P1() {
     std::vector<std::string> input = getFileInput(".//src//Day21//Day21.txt");
 
+    //get the enemy's stats
     Stats enemyStats;
     enemyStats.health = std::stoi(parseStringToString(input[0], ' ')[2]);
     enemyStats.damage = std::stoi(parseStringToString(input[1], ' ')[1]);
@@ -60,6 +62,7 @@ void AoC2015D21P1() {
     std::vector<Item> currentItems;
     int minCost = 10000000;
 
+    //try each combination of items to see which is the best
     for (int i = 0; i < weapons.size(); i++) {
         currentItems.push_back(weapons[i]);
         //no armor, no rings

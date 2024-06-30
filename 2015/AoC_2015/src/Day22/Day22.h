@@ -10,14 +10,19 @@ struct OurStats {
     int health, mana, shieldCounter, poisonCounter, rechargeCounter, manaUsed;
 };
 
+//recursive function
 void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &overallMinMana, bool hardDifficulty) {
+    //check whether we have reached an end condition
     if (enemyStats.health <= 0 || ourStats.health <= 0) {
         return;
     }
+
+    //check if this is an invalid branch now
     if (ourStats.manaUsed > overallMinMana) {
         return;
     }
-            
+    
+    //check whether this is problem 1 or two and implement the health -1 every two recursive calls rule.
     if (playerTurn && hardDifficulty) {
         ourStats.health -= 1;
         if (ourStats.health <= 0) {
@@ -25,6 +30,7 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
         }
     }
 
+    //inflict poison damage at start of every turn if it is active.
     if (ourStats.poisonCounter > 0) {
         enemyStats.health -= 3;
         ourStats.poisonCounter--;
@@ -34,12 +40,14 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
             }
         }
     }
+    //recharge mana at start of turn when the recharge effect is active
     if (ourStats.rechargeCounter > 0) {
         ourStats.mana += 101;
         ourStats.rechargeCounter--;
     }
 
     if (playerTurn) {
+        //if it is player turn and shield is active, make sure the counter still goes down.
         playerTurn = 0;
         if (ourStats.shieldCounter > 0) {
            ourStats.shieldCounter--;
@@ -47,6 +55,7 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
 
         //Select Move
         //magicMissile
+        //create a new branch if we have enough mana for if we were to try using magic missile. Also implement its effects
         if (ourStats.mana >= 53) {
             EnemyStats enemyMagicMissile = enemyStats;
             OurStats ourMagicMissile = ourStats;
@@ -55,16 +64,20 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
             ourMagicMissile.manaUsed += 53;
             enemyMagicMissile.health -= 4;
 
+            //check for end condition
             if (enemyMagicMissile.health <= 0) {
+                //in event of end condition, check if this is branch is out new frontrunner.
                 if (overallMinMana > ourMagicMissile.manaUsed) {
                     overallMinMana = ourMagicMissile.manaUsed;
                 }
             }
             else {
+                //otherwise, check further down the branch
                 getMinMana(ourMagicMissile, enemyMagicMissile, playerTurn, overallMinMana, hardDifficulty);
             }
         }
         //drain
+        //create a new branch if we have enough mana for if we were to try using Drain. Also implement its effects
         if (ourStats.mana >= 73) {
             EnemyStats enemyDrain = enemyStats;
             OurStats ourDrain = ourStats;
@@ -74,15 +87,19 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
             ourDrain.health += 2;
             enemyDrain.health -= 2;
 
+            //check for end condition
             if (enemyDrain.health <= 0) {
+                //in event of end condition, check if this is branch is out new frontrunner.
                 if (overallMinMana > ourDrain.manaUsed) {
                     overallMinMana = ourDrain.manaUsed;
                 }
             }
             else {
+                //otherwise, check further down the branch
                 getMinMana(ourDrain, enemyDrain, playerTurn, overallMinMana, hardDifficulty);
             }
         }
+        //create a new branch if we have enough mana for if we were to try using Shield and whether it is already active. Also implement its effects
         if (ourStats.mana >= 113 && ourStats.shieldCounter == 0) {
             EnemyStats enemyShield = enemyStats;
             OurStats ourShield = ourStats;
@@ -91,6 +108,7 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
             ourShield.manaUsed += 113;
             ourShield.shieldCounter = 6;
 
+            //check end condition (might be redundant)
             if (enemyShield.health <= 0) {
                 if (overallMinMana > ourShield.manaUsed) {
                     overallMinMana = ourShield.manaUsed;
@@ -100,6 +118,7 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
                 getMinMana(ourShield, enemyShield, playerTurn, overallMinMana, hardDifficulty);
             }
         }
+        //create a new branch if we have enough mana for if we were to try using Poison and whether it is already active. Also implement its effects
         if (ourStats.mana >= 173 && ourStats.poisonCounter == 0) {
             EnemyStats enemyPoison = enemyStats;
             OurStats ourPoison = ourStats;
@@ -111,6 +130,7 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
             getMinMana(ourPoison, enemyPoison, playerTurn, overallMinMana, hardDifficulty);
             
         }
+        //create a new branch if we have enough mana for if we were to try using Recharge and whether it is already active. Also implement its effects
         if (ourStats.mana >= 229 && ourStats.rechargeCounter == 0) {
             EnemyStats enemyRecharge = enemyStats;
             OurStats ourRecharge = ourStats;
@@ -125,6 +145,7 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
         playerTurn = 0;
 
     } else {
+        //if it is the enemy turn, inflict appropriate damage and check for a losing condition
         playerTurn = 1;
         int damage = enemyStats.damage;
         if (ourStats.shieldCounter > 0) {
@@ -139,6 +160,7 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
         if (ourStats.health <= 0) {
             return;
         } else {
+            //if no losing consition found, keep going down this branch
             getMinMana(ourStats, enemyStats, playerTurn, overallMinMana, hardDifficulty);
         }
     }
@@ -147,10 +169,12 @@ void getMinMana(OurStats ourStats, EnemyStats enemyStats, bool playerTurn, int &
 void AoC2015D22P1() {
     std::vector<std::string> input = getFileInput(".//src//Day22//Day22.txt");
     
+    //set enemy stats
     EnemyStats enemyStats;
     enemyStats.health = std::stoi(parseStringToString(input[0], ' ')[2]);
     enemyStats.damage = std::stoi(parseStringToString(input[1], ' ')[1]);
 
+    //set player stats
     OurStats ourStats;
     ourStats.health = 50;
     ourStats.mana = 500;
@@ -162,19 +186,21 @@ void AoC2015D22P1() {
     int minMana = 10000000;
     bool playerTurn = 1;
 
+    //recursively find the solution that requires the least mana based upon the rules provided
     getMinMana(ourStats, enemyStats, playerTurn, minMana, false);
         
-    
     std::cout << std::to_string(minMana) << std::endl << std::endl;
 }
 
 void AoC2015D22P2() {
     std::vector<std::string> input = getFileInput(".//src//Day22//Day22.txt");
 
+    //set enemy stats
     EnemyStats enemyStats;
     enemyStats.health = std::stoi(parseStringToString(input[0], ' ')[2]);
     enemyStats.damage = std::stoi(parseStringToString(input[1], ' ')[1]);
 
+    //set player stats
     OurStats ourStats;
     ourStats.health = 50;
     ourStats.mana = 500;
@@ -186,6 +212,7 @@ void AoC2015D22P2() {
     int minMana = 10000000;
     bool playerTurn = 1;
 
+    //recursively find the solution that requires the least mana based upon the rules provided
     getMinMana(ourStats, enemyStats, playerTurn, minMana, true);
 
 

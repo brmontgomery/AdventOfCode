@@ -5,9 +5,11 @@
 void AoC2015D2P1() {
     std::vector<std::string> input = getFileInput(".//src//Day2//Day2.txt");
     std::vector<std::vector<int>> dimensions;
+    //get dimensions of the boxes
     for (int i = 0; i < input.size(); i++) {
         dimensions.push_back(parseStringToInt(input[i],'x'));
     }
+    //get total square footage from the found dimensions + overlap (multiplication ofthe two lowest value dimensions of each box).
     int totalSA = 0;
     for (int i = 0; i < dimensions.size(); i++) {
         int lowest = 0;
@@ -35,6 +37,7 @@ void AoC2015D2P2() {
     for (int i = 0; i < input.size(); i++) {
         dimensions.push_back(parseStringToInt(input[i], 'x'));
     }
+    //find the total of the smallest perimeters of each box, plus each volume value
     int totalRibbon = 0;
     for (int i = 0; i < dimensions.size(); i++) {
         int highest = dimensions[i][0];
