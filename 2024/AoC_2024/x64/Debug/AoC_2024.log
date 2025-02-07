@@ -1,0 +1,43 @@
+﻿  main.cpp
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(6,17): error C2065: 'Reindeer': undeclared identifier
+  (compiling source file 'src/main.cpp')
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(6,10): error C2923: 'std::vector': 'Reindeer' is not a valid template type argument for parameter '_Ty'
+  (compiling source file 'src/main.cpp')
+  C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(6,17):
+  see declaration of 'Reindeer'
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(6,10): error C2976: 'std::vector': too few template arguments
+  (compiling source file 'src/main.cpp')
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\vector(436,1):
+  see declaration of 'std::vector'
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(6,27): error C2133: 'racers': unknown size
+  (compiling source file 'src/main.cpp')
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(6,27): error C2512: 'std::vector': no appropriate default constructor available
+  (compiling source file 'src/main.cpp')
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\vector(436,1):
+  see declaration of 'std::vector'
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(11,17): error C2065: 'Reindeer': undeclared identifier
+  (compiling source file 'src/main.cpp')
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(11,10): error C2923: 'std::vector': 'Reindeer' is not a valid template type argument for parameter '_Ty'
+  (compiling source file 'src/main.cpp')
+  C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(11,17):
+  see declaration of 'Reindeer'
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(11,10): error C2976: 'std::vector': too few template arguments
+  (compiling source file 'src/main.cpp')
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\vector(436,1):
+  see declaration of 'std::vector'
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(11,27): error C2133: 'racers': unknown size
+  (compiling source file 'src/main.cpp')
+  
+C:\Users\brian\Documents\Code\AdventOfCode\2024\AoC_2024\src\Day14\Day14.h(11,27): error C2512: 'std::vector': no appropriate default constructor available
+  (compiling source file 'src/main.cpp')
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\vector(436,1):
+  see declaration of 'std::vector'
+  
