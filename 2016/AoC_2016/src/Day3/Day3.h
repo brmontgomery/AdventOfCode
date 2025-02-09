@@ -5,6 +5,7 @@
 void AoC2016D3P1() {
     std::vector<std::string> input = getFileInput(".//src//Day3//Day3.txt");
     std::vector<std::vector<int>> triangles;
+    //find the largest side of each triangle
     for (int i = 0; i < input.size(); i++) {
         std::vector<int> triangle = parseStringToInt(input[i], ' ');
         int temp = 0;
@@ -22,6 +23,7 @@ void AoC2016D3P1() {
         triangles.push_back(triangle);
     }
 
+    //only count valid triangles
     int count = triangles.size();
     for (int i = 0; i < triangles.size(); i++) {
         if (triangles[i][0] >= (triangles[i][1] + triangles[i][2])) {
@@ -35,6 +37,8 @@ void AoC2016D3P1() {
 void AoC2016D3P2() {
     std::vector<std::string> input = getFileInput(".//src//Day3//Day3.txt");
     std::vector<std::vector<int>> triangles;
+
+    //reorder the triangles flipping a 3x3 matrix of sides (probably could have used the glm for this if I was lazy)
     for (int i = 0; i < input.size(); i=i+3) {
         std::vector<int> triangle1 = parseStringToInt(input[i], ' ');
         std::vector<int> triangle2 = parseStringToInt(input[i + 1], ' ');
@@ -60,6 +64,7 @@ void AoC2016D3P2() {
         }
     }
 
+    //only count new valid triangles
     int count = triangles.size();
     for (int i = 0; i < triangles.size(); i++) {
         if (triangles[i][0] >= (triangles[i][1] + triangles[i][2])) {

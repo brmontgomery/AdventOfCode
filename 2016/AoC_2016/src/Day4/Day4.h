@@ -13,6 +13,7 @@ void AoC2016D4P1() {
     std::vector<std::string> names;
     int sum = 0;
 
+    //parse the input into readable units
     for (int i = 0; i < input.size(); i++) {
         auto pos = input[i].find_last_of('-');
         auto posB1 = input[i].find_first_of('['); 
@@ -26,12 +27,15 @@ void AoC2016D4P1() {
         //get char counts
         std::map<char, int> charCounts;
         for (int j = 0; j < names[i].size(); j++) {
+            //find the itemin the map
             if (names[i][j] != '-') {
                 auto search = charCounts.find(names[i][j]);
                 if (search != charCounts.end()) {
+                    //if found increase count
                     search->second++;
                 }
                 else {
+                    //if not found enter a new map entry
                     std::pair<char, int> newPair(names[i][j], 1);
                     charCounts.insert(newPair);
                 }
@@ -44,6 +48,7 @@ void AoC2016D4P1() {
             std::string matches = "";
             std::map<char, int>::iterator it;
 
+            //find items in map with largest counts
             for (it = charCounts.begin(); it != charCounts.end(); it++) {
                 if (it->second > max) {
                     matches = "";
@@ -54,10 +59,12 @@ void AoC2016D4P1() {
                 }
             }
 
+            //get rid ofthe selected matches from the map
             for (int j = 0; j < matches.size(); j++) {
                 charCounts.erase(matches[j]);
             }
 
+            //sort matches and add to the key
             std::sort(matches.begin(), matches.end());
             if (matches.size() > 5 - key.size()) {
                 key += matches.substr(0, 5 - key.size());
@@ -67,6 +74,7 @@ void AoC2016D4P1() {
             }
         }
 
+        //if the key matches, then add to the sum answer
         if (key == checkSums[i]) {
             sum += roomNumbers[i];
         }
@@ -82,6 +90,7 @@ void AoC2016D4P2() {
     std::vector<std::string> names;
     std::vector<int> realRooms;
 
+    //parse the input into readable units
     for (int i = 0; i < input.size(); i++) {
         auto pos = input[i].find_last_of('-');
         auto posB1 = input[i].find_first_of('[');
@@ -95,12 +104,15 @@ void AoC2016D4P2() {
         //get char counts
         std::map<char, int> charCounts;
         for (int j = 0; j < names[i].size(); j++) {
+            //find the item in the map
             if (names[i][j] != '-') {
                 auto search = charCounts.find(names[i][j]);
+                //if found increase count
                 if (search != charCounts.end()) {
                     search->second++;
                 }
                 else {
+                    //otherwise add a new map entry
                     std::pair<char, int> newPair(names[i][j], 1);
                     charCounts.insert(newPair);
                 }
@@ -113,6 +125,7 @@ void AoC2016D4P2() {
             std::string matches = "";
             std::map<char, int>::iterator it;
 
+            //pick out the kays that have the largest counts
             for (it = charCounts.begin(); it != charCounts.end(); it++) {
                 if (it->second > max) {
                     matches = "";
@@ -124,10 +137,12 @@ void AoC2016D4P2() {
                 }
             }
 
+            //erase the keys with the largest counts from the map
             for (int j = 0; j < matches.size(); j++) {
                 charCounts.erase(matches[j]);
             }
 
+            //sort the matches and add to the key
             std::sort(matches.begin(), matches.end());
             if (matches.size() > 5 - key.size()) {
                 key += matches.substr(0, 5 - key.size());
@@ -137,6 +152,7 @@ void AoC2016D4P2() {
             }
         }
 
+        //record the indexes of matches
         if (key == checkSums[i]) {
             realRooms.push_back(i);
         }
@@ -144,6 +160,7 @@ void AoC2016D4P2() {
 
     std::vector<std::string> newNames;
     for (int i = 0; i < realRooms.size(); i++) {
+        //perform the ceasar cypher
         std::string newString = "";
         int cypherFactor = roomNumbers[realRooms[i]] % 26;
 
@@ -160,6 +177,7 @@ void AoC2016D4P2() {
                 newString += (char)asciiValue;
             }
         }
+        //if the deciphered code is the desired code, return the room number
         if (newString == "northpole object storage") {
             std::cout << std::to_string(roomNumbers[realRooms[i]]) << std::endl;
         }
