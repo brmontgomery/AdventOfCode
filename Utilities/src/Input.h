@@ -45,12 +45,22 @@ std::vector<int> parseStringToInt(std::string str, char delimiter) {
     std::string token;
     size_t pos = 0;
 
+    while (str[pos] == delimiter) {
+        pos++;
+    }
+    str = str.substr(pos);
+
     while ((pos = str.find(delimiter)) != std::string::npos) {
-        token = str.substr(0, pos);
+        if (pos != 0) {
+            token = str.substr(0, pos);
 
-        parsed.push_back(stoi(token));
+            parsed.push_back(stoi(token));
 
-        str.erase(0, pos + 1);
+            str.erase(0, pos + 1);
+        }
+        else {
+            str = str.substr(1);
+        }
     }
     parsed.push_back(stoi(str));
     return parsed;
