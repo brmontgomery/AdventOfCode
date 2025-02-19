@@ -72,3 +72,10 @@ bool isNumber(const std::string& s)
     while (it != s.end() && std::isdigit(*it)) ++it;
     return !s.empty() && it == s.end();
 }
+
+std::string removeSpaces(std::string input)
+{
+    input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
+    input.erase(std::remove(input.begin(), input.end(), '\n'), input.end());
+    return input;
+}
